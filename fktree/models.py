@@ -16,7 +16,7 @@ class Node(models.Model):
 
     class Meta(object):
         ordering = ('tree_path',)
-        db_table = "tree_nodes"
+        db_table = "fktree_nodes"
         verbose_name = _('node')
         verbose_name_plural = _('nodes')
 
