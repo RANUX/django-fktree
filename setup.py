@@ -2,13 +2,15 @@
 from setuptools import setup, find_packages
 import sys
 
-fktree = __import__('fktree')
 
+
+VERSION = (1, 0, 0)
+README_FILE = 'README.rst'
+
+__version__ = '.'.join((str(each) for each in VERSION[:4]))
 __author__ = 'Razzhivin Alexander'
 __email__ = 'admin@httpbots.com'
 
-
-README_FILE = 'README.rst'
 
 try:
     long_description = open(README_FILE).read()
@@ -18,7 +20,7 @@ except IOError, err:
     sys.exit(1)
 
 setup(name='django-fktree',
-    version=fktree.__version__,
+    version=__version__,
     description='Django tree based on foreign key',
     long_description=long_description,
     zip_safe=False,
