@@ -4,7 +4,7 @@ django-fktree - pre-order traversal tree in django based on foreign keys
 
 Dependencies
 ===============================================
-See setup.py
+pip-requirements.txt
 
 Installation
 ===============================================
