@@ -17,7 +17,7 @@ Examples
 ===============================================
 Catalog with tree structure::
 
-    from fktree import Node
+    from fktree.models import Node
 
     class Catalog(Node):
         ...

@@ -7,6 +7,7 @@ syntax: regexp
 ^.+\$py\.class$
 ^.+overrides.py$
 ^.coverage$
+^.+\.egg-info$
 
 # ignore project dirs
 
@@ -15,3 +16,5 @@ cover/
 build/
 src/
 .idea/
+build/
+dist/

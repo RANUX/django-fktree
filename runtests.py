@@ -1,38 +1,52 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-import os
-from os.path import dirname, abspath
 import sys
+from optparse import OptionParser
 
-os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
-from django_nose.runner import NoseTestSuiteRunner
+from django.conf import settings
+
+if not settings.configured:
+    settings.configure(
+        DATABASE_ENGINE='sqlite3',
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                },
+            },
+        NOSE_ARGS = ['--nocapture',
+                     '--all-modules',
+                     '--nologcapture',
+                     '--verbosity=2',
+                     '--with-coverage',
+                     '--cover-package=fktree',
+                     #             '--cover-html',
+                     #             '--with-doctest',
+                     'fktree'
+                     #             '--cover-erase',
+                     #             '--cover-tests',
+        ],
+        INSTALLED_APPS=[
+            'fktree',
+        ],
+        ROOT_URLCONF='',
+        DEBUG=False,
+    )
 
 
-__author__ = 'Razzhivin Alexander'
-__email__ = 'admin@httpbots.com'
+from django_nose import NoseTestSuiteRunner
 
-
-def runtests(*test_args):
+def runtests(*test_args, **kwargs):
     if not test_args:
         test_args = ['fktree']
 
-    parent = dirname(abspath(__file__))
-    sys.path.insert(0, parent)
-    try:
-        def run_tests(test_args, verbosity, interactive):
-            runner = NoseTestSuiteRunner(
-                verbosity=verbosity,
-                interactive=interactive,
-                failfast=False
-            )
-            return runner.run_tests(test_args)
-    except ImportError:
-        # for Django versions that don't have DjangoTestSuiteRunner
-        from django.test.simple import run_tests
-    failures = run_tests(
-        test_args, verbosity=1, interactive=True)
+    test_runner = NoseTestSuiteRunner(**kwargs)
+    failures = test_runner.run_tests(test_args)
     sys.exit(failures)
 
-
 if __name__ == '__main__':
-    runtests(*sys.argv[1:])
+    parser = OptionParser()
+    parser.add_option('--verbosity', dest='verbosity', action='store', default=1, type=int)
+    parser.add_options(NoseTestSuiteRunner.options)
+    (options, args) = parser.parse_args()
+
+    runtests(*args, **options.__dict__)

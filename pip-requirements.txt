@@ -1,0 +1,6 @@
+django
+
+# for tests
+-e git+https://github.com/nose-devs/nose.git#egg=nose
+django-nose
+coverage
