@@ -52,6 +52,9 @@ class Node(models.Model):
         self.tree_path = tree_path
         Node.objects.filter(pk=self.pk).update(tree_path=self.tree_path)
 
+    def has_children(self):
+        return self.last_child is not None
+
     @property
     def zerro_filled_pk(self):
         return unicode(self.pk).zfill(PATH_DIGITS)

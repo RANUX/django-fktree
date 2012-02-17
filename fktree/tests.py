@@ -60,6 +60,12 @@ class HierarchyTest(TestCase):
             child_node.tree_path
         )
 
+    def test_has_children(self):
+        node = Node.objects.create()
+        self.assertFalse(node.has_children())
+
+        child = Node.objects.create(parent=node)
+        self.assertTrue(node.has_children())
 
     def assert_empty_tree_path(self, node):
         self.assertEquals('', node.tree_path)
